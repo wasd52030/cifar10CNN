@@ -1,11 +1,11 @@
-﻿open Plotly.NET
-open type Tensorflow.KerasApi
-open Tensorflow
+﻿open System.Collections.Generic
+open Plotly.NET
+open Plotly.NET.ImageExport
 open Tensorflow.NumPy
-open type Tensorflow.Keras.Utils.np_utils
+open Tensorflow
 open type Tensorflow.Binding
-open System.Collections.Generic
-open System
+open type Tensorflow.KerasApi
+open type Tensorflow.Keras.Utils.np_utils
 
 let layers = keras.layers
 
@@ -55,12 +55,15 @@ let showTrainHistory (trainHistory: Dictionary<string, List<float32>>) =
     let validation =
         Chart.Line(x = [ 0 .. trainHistory["val_accuracy"].Count ], y = trainHistory["val_accuracy"], Name = "test")
 
-    Chart.combine ([| train; validation |])
-    |> Chart.withTitle "Train History"
-    |> Chart.show
+    let chart =
+        Chart.combine ([| train; validation |]) |> Chart.withTitle "Train History"
+
+    chart |> Chart.savePNG ("trainHistory")
+
+    chart |> Chart.show
 
 
-let train (model: Tensorflow.Keras.Engine.IModel) (x_train: NDArray, y_train) (x_test, y_test) =
+let train (model: Keras.Engine.IModel) (x_train: NDArray, y_train) (x_test, y_test) =
     model.fit (x_train, y_train, batch_size = 32, epochs = 10, validation_split = 0.2f, verbose = 1)
     |> fun callback -> callback.history
     |> showTrainHistory

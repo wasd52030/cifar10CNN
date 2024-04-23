@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Plotly.NET" Version="4.2.0" />
     <PackageReference Include="NumSharp" Version="0.30.0" />
+    <PackageReference Include="Plotly.NET.ImageExport" Version="5.0.1" />
     <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.16.0" />
     <PackageReference Include="TensorFlow.Keras" Version="0.15.0" />
     <PackageReference Include="TensorFlow.NET" Version="0.150.0" />
